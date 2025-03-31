@@ -1,6 +1,5 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
-
 type TableDisplayProps = {
   data: Record<string, any>[];
 };

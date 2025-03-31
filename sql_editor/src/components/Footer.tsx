@@ -1,16 +1,16 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 
 const FooterContainer = styled.footer`
-  background-color: #ffffff; /* Clean, modern background */
-  color: #333333; /* Dark text for readability */
+  background-color: #ffffff;
+  color: #333333; 
   padding: 16px 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
-  border-top: 1px solid #eaeaea; /* Delicate separation line */
-  margin-top: auto; /* Allows the footer to settle at the bottom of the page content */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #eaeaea;
+  margin-top: auto;
 `;
 
 const FooterText = styled.p`

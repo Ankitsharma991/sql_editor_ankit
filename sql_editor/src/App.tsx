@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import QuerySelector from "./components/QuerySelector";
@@ -39,23 +40,22 @@ const MainContent = styled.div`
 `;
 
 const Sidebar = styled.div`
-  flex: 0.3;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    flex: 1;
     padding: 15px;
   }
 `;
 
 const EditorContainer = styled.div`
-  flex: 0.7;
+  flex: 2;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -65,7 +65,6 @@ const EditorContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    flex: 1;
     padding: 15px;
   }
 `;
@@ -113,11 +112,12 @@ const mockData: QueryResult = {
 const App: React.FC = () => {
   const [selectedQuery, setSelectedQuery] = useState<string>(queries[0].query);
   const [queryResult, setQueryResult] = useState<any[]>(mockData[selectedQuery] || []);
+  const [isValid, setIsValid] = useState<boolean>(true);
 
-  const handleQueryChange = (query: string) => {
-    setSelectedQuery(query);
-    setQueryResult(mockData[query] || []);
-  };
+  useEffect(() => {
+    setIsValid(isValidSQL(selectedQuery));
+    setQueryResult(mockData[selectedQuery] || []);
+  }, [selectedQuery]);
 
   return (
     <>
@@ -125,9 +125,9 @@ const App: React.FC = () => {
       <AppContainer>
         <MainContent>
           <Sidebar>
-            <QuerySelector queries={queries} onSelect={handleQueryChange} />
+            <QuerySelector queries={queries} onSelect={setSelectedQuery} />
             <QueryEditor query={selectedQuery} onChange={setSelectedQuery} />
-            {!isValidSQL(selectedQuery) && <ValidationMessage>Invalid SQL Query</ValidationMessage>}
+            {!isValid && <ValidationMessage>Invalid SQL Query</ValidationMessage>}
           </Sidebar>
           <EditorContainer>
             <TableDisplay data={queryResult} />
